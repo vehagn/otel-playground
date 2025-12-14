@@ -1,0 +1,5 @@
+# https://github.com/open-telemetry/opentelemetry-helm-charts/blob/main/charts/opentelemetry-operator/values.yaml
+testFramework:
+  image:
+    repository: busybox
+    tag: "1.37"

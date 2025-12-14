@@ -1,0 +1,18 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: victoria-logs
+  namespace: monitoring
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana: main
+  plugins:
+    - name: victoriametrics-logs-datasource
+      version: 0.22.4
+  datasource:
+    name: "Victoria Logs"
+    type: victoriametrics-logs-datasource
+    access: proxy
+    url: http://vlsingle-victoria-logs.monitoring.svc.cluster.local:9428

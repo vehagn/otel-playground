@@ -1,0 +1,72 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: logs
+spec:
+  mode: daemonset
+  volumeMounts:
+    - name: logs
+      mountPath: /var/log/containers
+      readOnly: true
+  volumes:
+    # Jukser og henter /var/log fra Mac
+    - name: logs
+      hostPath:
+        path: /var/log
+        type: DirectoryOrCreate
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+      filelog:
+        include:
+          - /var/log/containers/*.log
+        start_at: beginning
+        include_file_path: true
+        include_file_name: false
+      k8s_events:
+        namespaces: [ ]
+
+    processors:
+      batch:
+        timeout: 5s
+        send_batch_size: 1000
+      memory_limiter:
+        check_interval: 1s
+        limit_mib: 512
+        spike_limit_mib: 128
+      k8sattributes:
+        auth_type: serviceAccount
+        extract:
+          metadata:
+            - k8s.pod.name
+            - k8s.namespace.name
+            - k8s.node.name
+            - k8s.pod.uid
+            - k8s.deployment.name
+            - k8s.statefulset.name
+            - k8s.daemonset.name
+            - k8s.cronjob.name
+            - k8s.job.name
+
+    exporters:
+      debug:
+        verbosity: detailed
+      otlphttp/victoriametrics:
+        # https://docs.victoriametrics.com/guides/getting-started-with-opentelemetry/#victorialogs
+        logs_endpoint: http://vlsingle-victoria-logs.monitoring.svc.cluster.local:9428/insert/opentelemetry/v1/logs
+        tls:
+          insecure: true
+        headers:
+          VL-Stream-Fields: "k8s.event.name,k8s.namespace.name"
+
+    service:
+      pipelines:
+        logs:
+          receivers: [ filelog, k8s_events, otlp ]
+          processors: [ batch, memory_limiter, k8sattributes ]
+          exporters: [ debug, otlphttp/victoriametrics ]
