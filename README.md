@@ -55,6 +55,15 @@ flowchart TB
     OTelOperator --> MetricsCollector
     LogsCollector --> VictoriaLogs
     MetricsCollector --> VictoriaMetrics
+    style GrafanaOperator fill: #232329, stroke: #DC7432, stroke-width: 2, color: #fff
+    style Grafana fill: #232329, stroke: #DC7432, stroke-width: 2, color: #fff
+    style GrafanaDatasource fill: #232329, stroke: #DC7432, stroke-width: 2, color: #fff
+    style VMOperator fill: #000000, stroke: #5A1D6F, stroke-width: 2, color: #fff
+    style VictoriaLogs fill: #000000, stroke: #5A1D6F, stroke-width: 2, color: #fff
+    style VictoriaMetrics fill: #000000, stroke: #5A1D6F, stroke-width: 2, color: #fff
+    style OTelOperator fill: #475BC0, stroke: #EAAB3B, stroke-width: 2, color: #fff
+    style LogsCollector fill: #475BC0, stroke: #EAAB3B, stroke-width: 2, color: #fff
+    style MetricsCollector fill: #475BC0, stroke: #EAAB3B, stroke-width: 2, color: #fff
 ```
 
 ## Tips & Tricks

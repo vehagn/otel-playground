@@ -6,9 +6,10 @@ metadata:
   labels:
     grafana: main
 spec:
-  disableDefaultAdminSecret: true
   version: 12.3.0
   config:
-    security:
-      admin_user: admin
-      admin_password: admin
+    auth:
+      disable_login_form: "true"
+    auth.anonymous:
+      enabled: "true"
+      org_role: Admin

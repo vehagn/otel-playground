@@ -2,17 +2,18 @@ apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: logs
+  namespace: monitoring
 spec:
   mode: daemonset
+  serviceAccount: logs-collector
   volumeMounts:
     - name: logs
       mountPath: /var/log/containers
       readOnly: true
   volumes:
-    # Jukser og henter /var/log fra Mac
     - name: logs
       hostPath:
-        path: /var/log
+        path: /var/log/containers
         type: DirectoryOrCreate
   config:
     receivers:

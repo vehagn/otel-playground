@@ -2,7 +2,10 @@ apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: metrics
+  namespace: monitoring
 spec:
+  mode: deployment
+  serviceAccount: metrics-collector
   config:
     receivers:
       otlp:
@@ -11,6 +14,8 @@ spec:
             endpoint: 0.0.0.0:4317
           http:
             endpoint: 0.0.0.0:4318
+      k8s_cluster:
+        collection_interval: 60s
 
     processors:
       batch:
@@ -35,6 +40,6 @@ spec:
     service:
       pipelines:
         metrics:
-          receivers: [ otlp ]
+          receivers: [ otlp, k8s_cluster ]
           processors: [ deltatocumulative, batch, memory_limiter ]
           exporters: [ otlphttp/victoriametrics ]

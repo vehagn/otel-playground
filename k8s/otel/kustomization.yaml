@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - rbac-logs-collector.yaml
+  - rbac-metrics-collector.yaml
   - logs-collector.yaml
   - metrics-collector.yaml
 
