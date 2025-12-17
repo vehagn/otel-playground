@@ -15,4 +15,4 @@ spec:
     - inputName: DS_LOGS
       datasourceName: vm-logs
     - inputName: DS_METRICS
-      datasourceName: vm-metrics
+      datasourceName: vm-metrics-prometheus

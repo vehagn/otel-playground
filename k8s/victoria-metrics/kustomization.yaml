@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - victoria-logs.yaml
   - victoria-metrics.yaml
+  - victoria-traces.yaml
 
 helmCharts:
   - name: victoria-metrics-operator

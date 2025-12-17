@@ -23,12 +23,12 @@ spec:
             endpoint: 0.0.0.0:4317
           http:
             endpoint: 0.0.0.0:4318
-      filelog:
-        include:
-          - /var/log/containers/*.log
-        start_at: beginning
-        include_file_path: true
-        include_file_name: false
+      #filelog:
+      #  include:
+      #    - /var/log/containers/*.log
+      #  start_at: beginning
+      #  include_file_path: true
+      #  include_file_name: false
       k8s_events:
         namespaces: [ ]
 
@@ -64,10 +64,16 @@ spec:
           insecure: true
         headers:
           VL-Stream-Fields: "k8s.event.name,k8s.namespace.name"
+      otlphttp/traces:
+        traces_endpoint: http://vtsingle-victoria-traces.monitoring.svc.cluster.local:10428/insert/opentelemetry/v1/traces
 
     service:
       pipelines:
-        logs:
-          receivers: [ filelog, k8s_events, otlp ]
-          processors: [ batch, memory_limiter, k8sattributes ]
-          exporters: [ debug, otlphttp/victoriametrics ]
+        #logs:
+        #  receivers: [ filelog, k8s_events, otlp ]
+        #  processors: [ memory_limiter, k8sattributes, batch ]
+        #  exporters: [ debug, otlphttp/victoriametrics ]
+        traces:
+          receivers: [ otlp ]
+          processors: [ memory_limiter, batch ]
+          exporters: [ otlphttp/traces ]

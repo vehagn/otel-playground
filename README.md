@@ -36,7 +36,7 @@ http://localhost:3000 (anonymous admin)
 ### VictoriaMetrics
 
 ```shell
-kubectl -n monitoring port-forward svc/vmsingle-victoria-metrics 8428:8428`
+kubectl -n monitoring port-forward svc/vmsingle-victoria-metrics 8428:8428
 ```
 
 http://localhost:8428

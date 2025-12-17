@@ -9,3 +9,4 @@ resources:
   - otel
 #  - prometheus-operator-crds
   - victoria-metrics
+  - apps/whoami

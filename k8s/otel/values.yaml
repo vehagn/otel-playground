@@ -3,3 +3,8 @@ testFramework:
   image:
     repository: busybox
     tag: "1.37"
+
+manager:
+  autoInstrumentation:
+    go:
+      enabled: true

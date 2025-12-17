@@ -6,6 +6,7 @@ resources:
   - rbac-metrics-collector.yaml
   - logs-collector.yaml
   - metrics-collector.yaml
+  - auto-instrumentation.yaml
 
 helmCharts:
   - name: opentelemetry-operator
